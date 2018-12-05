@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="翻译,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本周， Sophie Alpert和在React Conf上展示了‘Hooks’的提案，紧接着由Ryan Florence进行了更深入的研究。 我强烈建议你观看这个开场演讲去看看我们试图通过Hooks提案来解决什么问题。然而耗费一个小时来看视频也是巨大的投入，所以接下来我决定分享一些对于Hooks的看法：  对React来说，Hooks是一个实验性的提案。你不必马上去学习如何使用它。而且值得注意的">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[翻译] 理解Hooks">
+<meta property="og:url" content="https://authorjim.github.io/2018/12/05/翻译-理解Hooks/index.html">
+<meta property="og:site_name" content="AuthorJim&#39;s Blog">
+<meta property="og:description" content="本周， Sophie Alpert和在React Conf上展示了‘Hooks’的提案，紧接着由Ryan Florence进行了更深入的研究。 我强烈建议你观看这个开场演讲去看看我们试图通过Hooks提案来解决什么问题。然而耗费一个小时来看视频也是巨大的投入，所以接下来我决定分享一些对于Hooks的看法：  对React来说，Hooks是一个实验性的提案。你不必马上去学习如何使用它。而且值得注意的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fxja7mnzduj30er0euq74.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fxjbfx2k82j30ep0ckjvr.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwgy1fxl81a9u17j30jl06v75k.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fxl81knwxuj30jp0dwn05.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwgy1fxl8v9niu3j30k10ehgoh.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fxmbqbumoaj30jt03zq4j.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fxmbvgy0txj30e00fetdv.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fxmd6zhsrvj30js0aj41p.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNbRwgy1fxvn6db2kpj30jo0jin41.jpg">
+<meta property="og:updated_time" content="2018-12-05T02:14:07.253Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[翻译] 理解Hooks">
+<meta name="twitter:description" content="本周， Sophie Alpert和在React Conf上展示了‘Hooks’的提案，紧接着由Ryan Florence进行了更深入的研究。 我强烈建议你观看这个开场演讲去看看我们试图通过Hooks提案来解决什么问题。然而耗费一个小时来看视频也是巨大的投入，所以接下来我决定分享一些对于Hooks的看法：  对React来说，Hooks是一个实验性的提案。你不必马上去学习如何使用它。而且值得注意的">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fxja7mnzduj30er0euq74.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '17GV6KJZ9G',
+      apiKey: 'f9aadff4f5ccaa87ef96505b8abf7bdf',
+      indexName: 'blog-search',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://authorjim.github.io/2018/12/05/翻译-理解Hooks/">
+
+
+
+
+
+  <title>[翻译] 理解Hooks | AuthorJim's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6c0ceed9331096badf58565866d9d4cf";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AuthorJim's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">AuthorJim的小酒馆</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://authorjim.github.io/2018/12/05/翻译-理解Hooks/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Author Jim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://wx-static.yidejia.com/gDAcwF4KcWJfvH8WszFbzGz7spJPmz1yQnliJizE:M80Mk7_-aF5wufe6-ruDX8WKgsE=:eyJzY29wZSI6Ind4LW1hcmtldGluZy1tYW5hZ2VyIiwiZGVhZGxpbmUiOjE1NDM5MTEyODd9.avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AuthorJim's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[翻译] 理解Hooks</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T10:08:36+08:00">
+                2018-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12/05/翻译-理解Hooks/" class="leancloud_visitors" data-flag-title="[翻译] 理解Hooks">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本周， Sophie Alpert和在React Conf上展示了‘Hooks’的提案，紧接着由Ryan Florence进行了更深入的研究。</p>
+<p>我强烈建议你观看这个开场演讲去看看我们试图通过Hooks提案来解决什么问题。然而耗费一个小时来看视频也是巨大的投入，所以接下来我决定分享一些对于Hooks的看法：</p>
+<blockquote>
+<p>对React来说，Hooks是一个实验性的提案。你不必马上去学习如何使用它。而且值得注意的是，这篇博文仅仅是我个人的观点，并不代表React团队的立场。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="Why-Hooks"><a href="#Why-Hooks" class="headerlink" title="Why Hooks?"></a>Why Hooks?</h2><p>我们知道，组件和自上而下的数据流使我们将一个庞大的界面变成精小、独立、可复用的模块。然而我们无法将复杂的组件再次进行分割，因为组件逻辑是状态化且不能再被提取出来作为一个函数或组件。这就是有时别人说React不允许他们分离关注点的原因所在。<br>这种场景非常普遍，包括动画、表单处理、连接外部数据源以及其他我们想要通过组件来完成的事情。当我们试图仅仅通过组件来解决这些使用场景时，我们通常会因此而收场：</p>
+<ul>
+<li><strong>庞大的组件</strong>，难以重构和测试</li>
+<li><strong>重复的逻辑</strong>，在不同组件和生命周期方法间</li>
+<li><strong>复杂的模式</strong>，诸如<code>render props</code>与<code>HOC</code></li>
+</ul>
+<p>我们认为Hooks是解决这些问题的最佳实践。<strong>Hooks允许我们将组件内部的逻辑组织为可复用的独立单元</strong><br><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fxja7mnzduj30er0euq74.jpg" alt=""></p>
+<p><strong>Hooks在组件内部践行React的哲学（显示数据流和组合），而不是组件间。</strong>这就是为什么我觉得Hooks天然符合React组件模型。</p>
+<p>不同于<code>render props</code>与<code>HOC</code>，Hooks并不会在你组件树中引入没必要的嵌套,也不会被<a href="https://reactjs.org/blog/2016/07/13/mixins-considered-harmful.html#why-mixins-are-broken" target="_blank" rel="noopener">drawbacks of mixins</a>所影响。</p>
+<p>即使你一开始是抵制的（就像我一开始一样），我还是建议你给这个议案一次尝试并上手玩玩，我觉得你会喜欢上的。</p>
+<h2 id="Hooks让React变得臃肿了吗？"><a href="#Hooks让React变得臃肿了吗？" class="headerlink" title="Hooks让React变得臃肿了吗？"></a>Hooks让React变得臃肿了吗？</h2><p>在我们深入到Hooks之前，你也许会担心我们通过Hooks只是附加了更多概念到React中。这是很公正的批评。我认为虽然确实会花费一点短期认知成本来学习它，但最后的结果肯定会完全不一样。</p>
+<p><strong>如果React社区能够拥抱Hooks这个议案，这将会减少你在编写React应用时需要考虑的概念。</strong>Hooks总是允许你使用函数，而不是不停地在函数、<code>classes</code>、<code>HOC</code>、<code>render props</code>中切换写法。</p>
+<p>就打包体积来说，支持Hooks的React会增加仅仅1.5KBz左右的大小（min+gzip）。虽然这并不多，采用Hooks也许能减少你的代码体积，因为使用Hooks，相较于使用<code>classes</code>的同等代码量的方式来说，往往意味着着更好地压缩。下面的例子虽然有点极端，但却有力地展示了原因。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fxjbfx2k82j30ep0ckjvr.jpg" alt=""></p>
+<p>Hooks这个议案并不包括任何大的更改。即使在你最近的编写的组件内使用Hooks，你其他的代码也能很好的工作。事实上，这正是我们锁所推荐的–不要做任何重写。在任何关键的代码中应用Hooks是个不错的主意。而且，如果你能够在16.7aplpha这个版本做些尝试并给我们反馈，我们将会非常感激。</p>
+<h2 id="Hooks到底是什么？"><a href="#Hooks到底是什么？" class="headerlink" title="Hooks到底是什么？"></a>Hooks到底是什么？</h2><p>为了理解Hooks，我们需要回过头去想想代码复用。</p>
+<p>如今有许多方式可供我们重用React App中的代码逻辑。我们可以编写简单的函数调用他们去执行一些计算。我们也可以构建一个组件（组件本身可以是函数或类）。组件是强大的，但他们必须渲染一些UI。这对于要共享非可视逻辑的时候就变得不方便。通常我们都会用<code>render props</code>或<code>HOC</code>这类复杂的模式来解决这种问题。<strong>如果存在一种统一方式来复用代码而不是这么多的复杂模式，React会不会变得更加简单？</strong></p>
+<p>对代码复用来说，函数似乎是一种完美的机制。在函数间组织逻辑是很方便的，但是函数内部并没有React state。在不重构你的代码或者引入像<code>Observables</code>这样抽象类的情况下，你无法从组件中抽离诸如‘监听窗口大小变化然后更新<code>state</code>’或者‘跟随时间变化改变的动画值’这样的行为。着两种方法都破坏了我们喜爱的React的简洁性。</p>
+<p>Hooks刚好能解决这样的问题。React允许你通过调用单个函数以在函数中使用像state这样的React特性。React提供了一些内置的Hooks，暴露了一些React的构建块：state、生命周期、上下文。</p>
+<h2 id="Show-Me-Some-Code"><a href="#Show-Me-Some-Code" class="headerlink" title="Show Me Some Code!"></a>Show Me Some Code!</h2><p>接下来我们要订阅一个自适应当前宽度的组件（例如，在一个窄屏上显示不同内容）。</p>
+<p>现在你有几种方式来编写这中代码。这样方法包含阻止一个类，添加一些生命周期方法。如果想要在不同组件间复用这些代码你甚至可以抽离一个<code>render props</code>与<code>HOC</code>组件。但是我认为他们都比不上这种：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNbRwgy1fxl81a9u17j30jl06v75k.jpg" alt=""></p>
+<p>如果你读完这段代码，它确实如它说的那样执行。我们在组件内使用窗口宽度，如果它变化时，我们重新渲染我们的组件。那么这就是Hooks的目标：完全声明式地构建一个组件即使他们包含state和副作用。</p>
+<p>让我们看看如何能实现这一自定义的Hooks。我们使用React的本地state来报错窗口的宽度，然后在窗口变化的时候使用一个副作用来改变这个state。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fxl81knwxuj30jp0dwn05.jpg" alt=""></p>
+<p>正如你上面看到的那样，<code>useState</code>和<code>useEffect</code>作为基本的构建块内置在Reac Hooks中。我们可以在组件里直接使用它们，也可以将他们结合到像<code>useWindowWidth</code>这样的定制Hooks中。使用自定义的Hooks就像使用React内置API一样顺畅。</p>
+<p>你可以从这里了解更多有关内置Hooks的信息。</p>
+<p>Hooks是完全封装好的–你每次调用Hook的时候，它都会在当前执行的组件内获得独立的本地state。这不仅仅是对这个特例来说（所有组件的宽度都是一样的）。这就是让Hooks如此强大的原因。他们并不是一种共享state的方式，而是共享状态化逻辑的方式。我们并不想要破坏自上而下的数据流。</p>
+<p>每一个Hook也许都包含一些本地state和副作用。你可以在不同的Hooks间传递数据，就像你在普通函数间做的那样。正因为他们都是js函数，他们可以接受参数然后返回值。</p>
+<p>这是一个尝试Hooks的React动画的例子</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNbRwgy1fxl8v9niu3j30k10ehgoh.jpg" alt=""></p>
+<p>注意在这个demo的代码里，这令人称奇的动画是如何在同一个render方法里通过传递不同的值给这些定义好的Hooks来实现的。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fxmbqbumoaj30jt03zq4j.jpg" alt=""></p>
+<p>（关于这个例子，如果你想了解更多的话，请戳<a href="https://medium.com/@drcmda/hooks-in-react-spring-a-tutorial-c6c436ad7ee4" target="_blank" rel="noopener">这里</a>）</p>
+<p>然而这不是Hooks的主要目的，他们也能提供强大的富交互的debug工具。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fxmbvgy0txj30e00fetdv.jpg" alt=""></p>
+<p>在Hooks间传递数据让实现动画、数据订阅、表单管理以及其它的富状态交互变得非常便利。不同于<code>render props</code>与<code>HOC</code>，Hooks不会在你render树中创建“假层级”。他们更像是依附在组件中的“存储单元”平铺列表，没有额外的层级。</p>
+<h2 id="那Classes该怎么办呢？"><a href="#那Classes该怎么办呢？" class="headerlink" title="那Classes该怎么办呢？"></a>那Classes该怎么办呢？</h2><p>在我看来，自定义Hooks是Hooks议案中最吸引人的地方。但为了实现自定义Hooks，React需要能为函数提供声明state和副作用的方法。这就正是像<code>useState</code>和<code>useEffect</code>这些内置Hooks允许我们做的。你可以在<a href="https://reactjs.org/docs/hooks-overview.html" target="_blank" rel="noopener">这篇文档</a>了解到更多有关它们的知识。</p>
+<p>结果表明，这样内置Hooks不仅仅可以用来创建自定义Hooks。一般来说，因为它们提供了像state这样所有必备的特性，它们也完全可以用来定义组件。这就是为了我们希望在未来Hooks会成为定义一个React组件的主要方式。</p>
+<p>我们没有任何计划去废除类组件。在Facebook我们有数以万计的类组件，跟你一样，我们并不想去重写它们。但如果React社区拥抱了Hooks这个议案，那就没有必要存在两中方式去编写组件了。Hooks可以涵盖所有类的使用场景，同时在抽象、测试、代码复用的方面更加灵活。这就是为什么Hooks代表了我们对React的未来愿景。</p>
+<h2 id="但hooks具有魔法吗？"><a href="#但hooks具有魔法吗？" class="headerlink" title="但hooks具有魔法吗？"></a>但hooks具有魔法吗？</h2><p>你也许已经被(Rules of Hooks)[<a href="https://reactjs.org/docs/hooks-rules.html]所惊讶。" target="_blank" rel="noopener">https://reactjs.org/docs/hooks-rules.html]所惊讶。</a></p>
+<p>虽然必须在顶层调用Hooks是很怪异的，但即使可以，你也不想某种条件判断中定义state。例如，你无法对类中的state进行条件判断，而且在过去四年和React用户的交流中，我也没听到他们对此的抱怨。</p>
+<p>这种设计，在不引入语法噪音和其它坑的情况下，对自定义的Hooks是非常重要的。在开始我们对此的认知也许有困难，但我们认为对于这个特性来说，这样的取舍是很值得的。如果你有异议，我希望你能上手玩玩并自行体会。</p>
+<p>为了看看工程师是否会被这样规则困扰，我们已经在生产中使用了Hooks有一个月了。我们发现在实践中人们花了一些时间去习惯它们。对我个人而言，我承认开始的时候我感到这样规则对我来说是“错误的”，但我很快就克服了。这种体验就像我第一次接触React的时候。（你是一接触就喜欢React吗？我是直到第二次菜爱上它）</p>
+<p>注意在Hooks的实现里，并没有什么“魔法”。就如Jamie指出的那样，它看起来就像这样：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fxmd6zhsrvj30js0aj41p.jpg" alt=""></p>
+<p>在每个组件内我们维护一个Hooks列表，在每次Hooks调用时我们就移动到列表的下一项。由于Hooks的规则，在每一次渲染的时候，它们的顺序都是一样的，所以我们可以在每一次调用时为组件提供正确的state。不要忘记React不需要做任何特别的事情去区分当前哪一个组件被渲染。React就是你调用的组件。</p>
+<p>Rudi Yardley写的这篇文章包含了很好的可视的解释.</p>
+<p><strong>也许你会好奇React是在什么地方保存了Hooks的状态。答案就是它保存在React为类保存的状态的相同位置。无论你如何定义你的组件，在React内部都有一个更新队列，它是所有state真实的来源。</strong></p>
+<p>Hooks不需要依赖像<code>Proxies</code>或<code>getters</code>这种在现代<code>JavaScript</code>库中被广泛使用的特性。所有可以说对相似的问题，Hooks比一些热门的方式具有更少的<em>魔力</em>。我可以认为Hooks就和调用<code>array.push</code>、<code>array.pop</code>一样具有“魔力”。</p>
+<p>Hooks的设计并没有绑定在React上。实际上，在我们议案提出后的开始几天内，不同的人对<code>Vue</code>、<code>Web Components</code>甚至是纯js函数都提出了和Hooks一样的实验性API。</p>
+<p>最后如果你是函数式编程的爱好者，并对React在实现细节上依赖可突变数据而感到不满时，你也许会因为可以以一种纯函数的方式实现Hooks而感到欣喜（如果js支持的话）。当然React内部一直是依赖于可突变state，正因如此你不必那样做。</p>
+<p>无论你是以一个务实主义者或者是教条主义者的角度来思考的（如果你都是的话），我希望至少有一个是有意义的。如果你感到好奇的话，在RFC，Sebastian回复了这个comment中的一些担忧的地方。最重要的是，Hooks让我们花费更少的精力以及更好的用户体验去构建组件。这就是我为什么对Hooks感到兴奋的原因。</p>
+<h2 id="传递爱而不是炒作"><a href="#传递爱而不是炒作" class="headerlink" title="传递爱而不是炒作"></a>传递爱而不是炒作</h2><p>如果Hooks还是无法吸引你，我也能完成理解。不过我仍然希望你可以在一个小项目中去尝试一下，看看是否能改变你的观点。无论你有没有遇到Hooks解决的问题，还是心理有不同的解决方案，请在RFC中让我们知道。</p>
+<p><strong>如果你在Hooks不稳定期间使用它开发了任何的内容，请显著的表明它们还是实验议案，并包含一个Hooks的官方文档的链接。</strong>如果这个议案有任何改动，我们都会保持文档更新。我们已经花了很多努力去使他们更加的易于理解，所以在那里已经有很多问题被解决了。</p>
+<p>当你和不像你那么激动的人交流时，请保持礼貌。如果你遭到误解，若是别人乐意的话，你可以分享更多的信息。但任何更改都是可怕的。作为一个社区，我们应该尽力帮助别人而不是疏远。如果你发现我（或者React团队的任何人）拒绝这个建议，请叫我们出局。</p>
+<h2 id="接下来"><a href="#接下来" class="headerlink" title="接下来"></a>接下来</h2><p>浏览Hooks议案的文档来学习它：</p>
+<ul>
+<li><a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Introduce Hooks</a></li>
+<li><a href="https://reactjs.org/docs/hooks-overview.html" target="_blank" rel="noopener">Hooks at Glance</a></li>
+<li><a href="https://reactjs.org/docs/hooks-custom.html" target="_blank" rel="noopener">Building Your Own Hooks</a></li>
+<li><a href="https://reactjs.org/docs/hooks-faq.html" target="_blank" rel="noopener">Hooks FAQ</a></li>
+</ul>
+<p>Hooks目前在初始阶段，当我们会激动听到你的任何反馈。你可以直接进入<a href="https://github.com/reactjs/rfcs/pull/68" target="_blank" rel="noopener">RFC</a>，但我们也会尽力在Twitter上沟通。</p>
+<p>如果有任何不清楚的地方请让我知道，我很乐意聊聊你关心的地方。谢谢阅读！</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNbRwgy1fxvn6db2kpj30jo0jin41.jpg" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------End-------------</div>
+    
+</div>`
+
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"><i class="fa fa-tag"></i> 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/04/骚年，来一起聊聊React Portals吧/" rel="next" title="骚年，来一起聊聊React Portals吧">
+                <i class="fa fa-chevron-left"></i> 骚年，来一起聊聊React Portals吧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTQ1NC8xODAwMQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://wx-static.yidejia.com/gDAcwF4KcWJfvH8WszFbzGz7spJPmz1yQnliJizE:M80Mk7_-aF5wufe6-ruDX8WKgsE=:eyJzY29wZSI6Ind4LW1hcmtldGluZy1tYW5hZ2VyIiwiZGVhZGxpbmUiOjE1NDM5MTEyODd9.avatar.jpg" alt="Author Jim">
+            
+              <p class="site-author-name" itemprop="name">Author Jim</p>
+              <p class="site-description motion-element" itemprop="description">Busy or Die</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why-Hooks"><span class="nav-number">1.</span> <span class="nav-text">Why Hooks?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hooks让React变得臃肿了吗？"><span class="nav-number">2.</span> <span class="nav-text">Hooks让React变得臃肿了吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hooks到底是什么？"><span class="nav-number">3.</span> <span class="nav-text">Hooks到底是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Show-Me-Some-Code"><span class="nav-number">4.</span> <span class="nav-text">Show Me Some Code!</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#那Classes该怎么办呢？"><span class="nav-number">5.</span> <span class="nav-text">那Classes该怎么办呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#但hooks具有魔法吗？"><span class="nav-number">6.</span> <span class="nav-text">但hooks具有魔法吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传递爱而不是炒作"><span class="nav-number">7.</span> <span class="nav-text">传递爱而不是炒作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接下来"><span class="nav-number">8.</span> <span class="nav-text">接下来</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Author Jim</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共5.2k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8LpLKalrvFMrwLLsqnMcWGD1-gzGzoHsz", "ThXlwp1k9eFgfnqUxOw8A2Wb");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
