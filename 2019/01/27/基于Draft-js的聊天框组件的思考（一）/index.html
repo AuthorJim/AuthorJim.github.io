@@ -86,12 +86,12 @@
 
 
 
-<meta name="description" content="前言18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。 背景由于手头的项目是一个类IM应用的web系统，那么支持类似于微信、钉钉这类可以进行内容的输入编辑的功能就显得尤">
+<meta name="description" content="前言18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于Draft-js的聊天框组件的思考（一）">
 <meta property="og:url" content="https://authorjim.github.io/2019/01/27/基于Draft-js的聊天框组件的思考（一）/index.html">
 <meta property="og:site_name" content="AuthorJim&#39;s Blog">
-<meta property="og:description" content="前言18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。 背景由于手头的项目是一个类IM应用的web系统，那么支持类似于微信、钉钉这类可以进行内容的输入编辑的功能就显得尤">
+<meta property="og:description" content="前言18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fzl8r7ijblj30u00qo44p.jpg">
 <meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1fzl9c0w2krj30yc0ko764.jpg">
@@ -100,10 +100,10 @@
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1fzl9ibh6c8j31050u07bv.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1fzlaei9v9rj30pi01cdg7.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1fzlafr3x15j30gw02ywer.jpg">
-<meta property="og:updated_time" content="2019-02-21T05:42:30.850Z">
+<meta property="og:updated_time" content="2019-02-21T08:56:22.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于Draft-js的聊天框组件的思考（一）">
-<meta name="twitter:description" content="前言18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。 背景由于手头的项目是一个类IM应用的web系统，那么支持类似于微信、钉钉这类可以进行内容的输入编辑的功能就显得尤">
+<meta name="twitter:description" content="前言18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。">
 <meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fzl8r7ijblj30u00qo44p.jpg">
 
 
@@ -426,6 +426,7 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。</p>
+<a id="more"></a>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于手头的项目是一个类IM应用的web系统，那么支持类似于微信、钉钉这类可以进行内容的输入编辑的功能就显得尤为重要。在当时的业务场景下，这样的输入框必须支持发送文本、emoji等需求。我们都知道对于文本来说，一个简单的<code>input</code>框就能解决。对于emoji来说，如果仅仅是普通的通用表情，就可以直接把它当成<a href="http://www.ruanyifeng.com/blog/2017/04/emoji.html" target="_blank" rel="noopener">Unicode字符</a>来处理，并没有太大的成本。</p>
 <p>但是这个功能也需要支持的是像微信这样的表情</p>
 <p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fzl8r7ijblj30u00qo44p.jpg" alt=""></p>

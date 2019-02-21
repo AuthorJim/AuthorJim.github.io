@@ -420,57 +420,14 @@
 
       
         
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。</p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>由于手头的项目是一个类IM应用的web系统，那么支持类似于微信、钉钉这类可以进行内容的输入编辑的功能就显得尤为重要。在当时的业务场景下，这样的输入框必须支持发送文本、emoji等需求。我们都知道对于文本来说，一个简单的<code>input</code>框就能解决。对于emoji来说，如果仅仅是普通的通用表情，就可以直接把它当成<a href="http://www.ruanyifeng.com/blog/2017/04/emoji.html" target="_blank" rel="noopener">Unicode字符</a>来处理，并没有太大的成本。</p>
-<p>但是这个功能也需要支持的是像微信这样的表情</p>
-<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fzl8r7ijblj30u00qo44p.jpg" alt=""></p>
-<p>微信的表情与通用的emoji是有明显区别的，微信自带的这些表情，只是微信自定义的一些转义符号。诸如这样的<code>/::&#39;|/:basketb/:,@f</code>。这就决定了，我们不能仅仅要支持文本的输入，还需要扩展一些特殊的能力。</p>
-<p>那么现在我们需要梳理一下：我需要一个支持可编辑文本的元素，还需要能对这个元素做一些处理，使它可以支持微信emoji的编辑与显示。</p>
-<h2 id="contenteditable"><a href="#contenteditable" class="headerlink" title="contenteditable"></a>contenteditable</h2><p>第一个思路就是使用<a href="https://developer.mozilla.org/en/docs/Web/API/HTMLElement/contentEditable" target="_blank" rel="noopener">contenteditable</a>来做一些定制。<code>contentEditable</code>属性可以表明这元素是否可以被编辑。当我们设置<code>contentEditable=true</code>后，该元素就具备<code>input</code>输入框的特性，可以在其里面进行编写操作。</p>
-<p>这种方式处理文本没有问题，那么如何处理emoji呢？</p>
-<h3 id="emoji的处理"><a href="#emoji的处理" class="headerlink" title="emoji的处理"></a>emoji的处理</h3><p>首先，我们将系统中使用到的表情都进行了统一上传，并形成了一个map表</p>
-<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1fzl9c0w2krj30yc0ko764.jpg" alt=""></p>
-<p>然后将这些emoji封装成了一个组件，就和下面的图片类似</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fzl9dkk9e0j30k20by0v7.jpg" alt=""></p>
-<p>每点击一个表情，都可以获得这个表情的信息。拿到这个表情的数据后，调用组件内部的方法将该表情插入到输入框中</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fzl9lgktqkj31be0codi2.jpg" alt=""></p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fzl9ibh6c8j31050u07bv.jpg" alt=""></p>
-<p>可以看到的是，我们首先将该表情的url地址置入到一个<code>img</code>标签的src，然后调用<code>insertContent</code>方法。在这场景下，会执行到<code>rangeUtil.replaceSelection(this.inputRef, ele)</code>这个函数。这个函数的作用就是创建一个<code>img</code>的节点，并处理当前输入框内的选区数据。然后将这段html塞到这个<code>contenteditable</code>元素的<code>innerHTML</code>中。历史原因，在我们与后端数据传递中，我们不会将这样一段html发给他们，所以最后需要将包含有表情的html转成类似于上面提到的map表中的形式。然后当我们要显示的时候，服务端返回的也是这么一串特殊字符，将它利用正则进行解析成一段html，然后配合<code>dangerouslySetInnerHTML</code>特性将其显示在页面中。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fzlaei9v9rj30pi01cdg7.jpg" alt=""></p>
-<p>最后我们得到的效果是这样的</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1fzlafr3x15j30gw02ywer.jpg" alt=""></p>
-<p>到这里，这个需求基本上是完成了。</p>
-<h3 id="不足之处"><a href="#不足之处" class="headerlink" title="不足之处"></a>不足之处</h3><ol>
-<li>在对进行初始化赋值的时候，经常会出现输入框内的光标位置诡异且难以定位。使用<code>contenteditable</code>特性后，管理光标的状态就变得异常复杂。在处理内容的复制粘贴的时候，<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Selection" target="_blank" rel="noopener">Selection</a>的范围就变得不可控了。</li>
-<li>在我们的代码中，发现对于这些内容的更改都是粗暴的进行<code>innerHTML</code>的修改，这样直接操作dom的方式，在输入框中内容逐渐庞大的时候，会出现明显的卡顿感。</li>
-<li>频繁的进行emoji的decode和parse，在性能上也是很大的浪费。</li>
-</ol>
-<p>因此而带来的用户体验是很糟糕的。</p>
-<h2 id="Draft-js"><a href="#Draft-js" class="headerlink" title="Draft.js"></a>Draft.js</h2><p>根据上面方式实现的组件用了一段时间后，用户群体产生了一些吐槽，团队内部也发现很难用。并且用过微信、钉钉这样的输入框都知道他们有一个@好友、文件拖拽上传等功能。作为一个追求完美的工程师，也一直心心念念地在寻求更好的技术方案。</p>
-<p>在一个很偶然的机会，接触到了<a href="https://draftjs.org/" target="_blank" rel="noopener">Draft.js</a>。</p>
-<blockquote>
-<p>Draft.js makes it easy to build any type of rich text input, whether you’re just looking to support a few inline text styles or building a complex text editor for composing long-form articles.</p>
-</blockquote>
-<p>通过<a href="https://www.youtube.com/watch?v=feUYwoLhE_4" target="_blank" rel="noopener">这个视频</a>了解到，facebook曾经也被这种富文本输入框困扰过。于是他们为了解决这个问题，自己写了一个框架–Draft.js，大厂就是大厂，真不愧是开发维护react的团队。整个视频看下来，让我找到了自己项目存在问题的解决方案。那时就如同发现了一块新大陆，将Draft.js的官方文档好好的啃了一遍。不得不说，在初次接触的时候，Draft.js所提供的一些API让我感觉非常的艰涩难懂。因为它引入了不可变的数据(immutable data)这样的概念，在一开始就进入了我知识的盲区。不过在配合官方提供的实例，自己在代码中进行不断地调试，努力搞懂了大多数api对应的功能以及解决的业务</p>
-<p>背景介绍完毕，接下来我们就来看看如何基于Draft.js来完整我们的这次需求。</p>
-<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>对于文本内容的处理，这里不需要赘述。我们可以来着重探讨一些如何使输入框支持emoji的输入与显示。</p>
-<p>在Draft.js中，它提出了一个理念“everything is customizable”，在draft中支持你定制任何你想要显示的内容。memtion、emoji、image、video、sticker、hashtag、undo等等功能，你都可以在draft得以实现。</p>
-<p>那么在此，我们可以来扩展下需求。这么一个输入框，它至少要具备以下的功能</p>
-<ol>
-<li>支持输入任意的文字</li>
-<li>支持插入emoji（非标准字符集）</li>
-<li>在我进行对输入框内的内容进行编辑的时候，输入光标位置准确，可以方便的管理输入内容的选区范围</li>
-<li>健全的事件体系，能够响应一些自定义的快捷键功能</li>
-<li>支持@好友功能</li>
-<li>支持图片、视频上传，并支持编辑。</li>
-<li>文件拖拽上传</li>
-<li>支持内容初始化</li>
-<li>避免出现输入的卡顿</li>
-</ol>
-<p>那么欲知后事如何，且听下回分解</p>
-
-          
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>18年年初的时候，我们项目组的技术栈进行了一次彻底的迁移，整个的系统相应地也进行了彻底重构。由之前的vue+ts+vuex整体转移到了react+ts+mobx。重构的过程中我负责了系统的基础组件开发，要求就是抽象当前系统的各个大小的功能模块，将其进行封装成独立的，复用性高的组件。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/27/基于Draft-js的聊天框组件的思考（一）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
