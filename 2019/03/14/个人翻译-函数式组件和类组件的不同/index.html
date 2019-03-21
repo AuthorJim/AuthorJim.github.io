@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="翻译,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文地址 函数式组件和类组件有什么不同呢？ 一直以来，权威的答案是类组件提供了更多的特性（比如state）。有了Hooks后，答案就不再正确了。 也许你已经听过它们其中一个的性能更好。哪一个呢？很多这样的评测都是有缺陷的，所以我很谨慎地去从它们之间下了个结论。性能的好坏主要取决于你的代码做的是什么而非你使用的是函数式还是类。在我看来，虽然优化策略有点不同，但性能的差别是微乎其微的。">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[翻译] 函数式组件和类组件的不同">
+<meta property="og:url" content="https://authorjim.github.io/2019/03/14/个人翻译-函数式组件和类组件的不同/index.html">
+<meta property="og:site_name" content="AuthorJim&#39;s Blog">
+<meta property="og:description" content="原文地址 函数式组件和类组件有什么不同呢？ 一直以来，权威的答案是类组件提供了更多的特性（比如state）。有了Hooks后，答案就不再正确了。 也许你已经听过它们其中一个的性能更好。哪一个呢？很多这样的评测都是有缺陷的，所以我很谨慎地去从它们之间下了个结论。性能的好坏主要取决于你的代码做的是什么而非你使用的是函数式还是类。在我看来，虽然优化策略有点不同，但性能的差别是微乎其微的。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcly1g12dmhwj4jg30k50bfq3m.gif">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1g12efrwgp2g30qe09r135.gif">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g13n0xeqp0g30b40697wh.gif">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1g14dlfzrczg30p1085wm0.gif">
+<meta property="og:updated_time" content="2019-03-21T04:51:37.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[翻译] 函数式组件和类组件的不同">
+<meta name="twitter:description" content="原文地址 函数式组件和类组件有什么不同呢？ 一直以来，权威的答案是类组件提供了更多的特性（比如state）。有了Hooks后，答案就不再正确了。 也许你已经听过它们其中一个的性能更好。哪一个呢？很多这样的评测都是有缺陷的，所以我很谨慎地去从它们之间下了个结论。性能的好坏主要取决于你的代码做的是什么而非你使用的是函数式还是类。在我看来，虽然优化策略有点不同，但性能的差别是微乎其微的。">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tKfTcly1g12dmhwj4jg30k50bfq3m.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '17GV6KJZ9G',
+      apiKey: 'f9aadff4f5ccaa87ef96505b8abf7bdf',
+      indexName: 'blog-search',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://authorjim.github.io/2019/03/14/个人翻译-函数式组件和类组件的不同/">
+
+
+
+
+
+  <title>[翻译] 函数式组件和类组件的不同 | AuthorJim's Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?6c0ceed9331096badf58565866d9d4cf";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AuthorJim's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">AuthorJim的小酒馆</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://authorjim.github.io/2019/03/14/个人翻译-函数式组件和类组件的不同/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Author Jim">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://wx-static.yidejia.com/gDAcwF4KcWJfvH8WszFbzGz7spJPmz1yQnliJizE:M80Mk7_-aF5wufe6-ruDX8WKgsE=:eyJzY29wZSI6Ind4LW1hcmtldGluZy1tYW5hZ2VyIiwiZGVhZGxpbmUiOjE1NDM5MTEyODd9.avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AuthorJim's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[翻译] 函数式组件和类组件的不同</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T14:57:44+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index">
+                    <span itemprop="name">React</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/03/14/个人翻译-函数式组件和类组件的不同/" class="leancloud_visitors" data-flag-title="[翻译] 函数式组件和类组件的不同">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+                 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://overreacted.io/how-are-function-components-different-from-classes/" target="_blank" rel="noopener">原文地址</a></p>
+<p>函数式组件和类组件有什么不同呢？</p>
+<p>一直以来，权威的答案是类组件提供了更多的特性（比如state）。有了Hooks后，答案就不再正确了。</p>
+<p>也许你已经听过它们其中一个的性能更好。哪一个呢？很多这样的评测都是有缺陷的，所以我很谨慎地去从它们之间下了个结论。性能的好坏主要取决于你的代码做的是什么而非你使用的是函数式还是类。在我看来，虽然优化策略有点不同，但性能的差别是微乎其微的。</p>
+<a id="more"></a>
+<p>除非你有其他原因，否则无论何种情况我们都不建议你去重写现有的组件。也不要介意成为一个早期的使用者。Hooks仍然非常的新（就行2014年的React），至今也没有找到一些最佳实践。</p>
+<p>那么我们该何去何从？在函数组件和类组件间存在任何本质区别吗？当然，在内部模型中是有的。本文我将会研究他们之间的最大区别。这区别自从函数式组件诞生以来就已存在，但它经常被忽视：</p>
+<blockquote>
+<p><strong>函数式组件捕获了渲染的值</strong></p>
+</blockquote>
+<p>让我们来解析这句话的意思。</p>
+<p><strong>注意：这篇文章不会对类或函数式进行任何价值判断。我仅仅阐述这两种编程模型在React中的不同。关于更广泛使用函数式组件的问题，可以参考这里</strong></p>
+<p>考虑下这个组件</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ProfilePage</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'Followed '</span> + props.user);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(showMessage, <span class="number">3000</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;button onClick=&#123;handleClick&#125;&gt;Follow&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>它展示了通过<code>setTimeout</code>来模拟网络请求然后弹出一个对话框。如果<code>props.user</code>的值是<code>Dan</code>，它将会在三秒后显示<code>Followed Dan</code>，非常简单。</p>
+<p><em>注意，在上面的例子中，无论我使用箭头函数还是普通函数都没有影响。<code>function handleClick()</code>同样可以正常运行</em></p>
+<p>我们如何用类组件来改写它？一个无缝切换的写法如下：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProfilePage</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'Followed '</span> + <span class="keyword">this</span>.props.user);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="keyword">this</span>.showMessage, <span class="number">3000</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleClick&#125;</span>&gt;</span>Follow<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通常这两段代码会被认为是等效的。人们总是没有留意到它们的含义而随意地在这两种模式间重构。</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tKfTcly1g12dmhwj4jg30k50bfq3m.gif" alt=""></p>
+<p>然而，这两段代码还是有些许不同的。好好考虑下，看出它们的区别了吗？就个人而言，为研究这个，也花费了我好一会功夫。</p>
+<p>如果你想自己试试的话，这里有一个<a href="https://codesandbox.io/s/pjqnl16lm7" target="_blank" rel="noopener">在线demo</a>。本文剩下的篇幅将会解释两者间的区别以及为什么这很重要。</p>
+<p>在我们继续之前，我想强调我在叙述的这个差异和React Hooks没有关系。上面的例子甚至没有用到Hooks。</p>
+<p>这些全都是在React中函数与类之间的差别。如果你打算在React应用中更频繁地使用函数式组件，你也许想要去理解它。</p>
+<p><strong>我们将会通过在React应用中的一个很常见的bug来说明这个差异。</strong></p>
+<p>打开上面这个有当前人物简介选择器以及以两种不同实现方式<code>ProfilePage</code>的例子–每个都渲染一个Follow按钮。</p>
+<p>试试两个按钮按照这个操作顺序：</p>
+<ol>
+<li>点击其中一个Follow按钮。</li>
+<li>在3秒内改变选中的人物简介。</li>
+<li>阅读弹窗的文本。</li>
+</ol>
+<p>你将会注意到一个诡异的差别：</p>
+<ul>
+<li>在函数式<code>ProfilePage</code>中，在Dan的人物简介里点击Follow按钮后切换到Sophie的简介中，弹窗的会仍然显示<code>&#39;Followed Dan&#39;</code>。</li>
+<li>在类组件实现的<code>ProfilePage</code>中，弹窗的会显示<code>&#39;Followed Sophie&#39;</code></li>
+</ul>
+<p><img src="https://ws4.sinaimg.cn/large/006tKfTcly1g12efrwgp2g30qe09r135.gif" alt=""></p>
+<p>在这个例子中，第一个行为是正确的。<strong>如果我关注了一个人，然后切换到其他人的简介中，我的组件不应该不知道我关注的是谁。</strong>这个类组件的实现明显是有问题的。</p>
+<p>那么，为什么我们的类组件例子会表现为这样？</p>
+<p>让我们好好看看类中的<code>showMessage</code>方法。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProfilePage</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'Followed '</span> + <span class="keyword">this</span>.props.user);</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>这个类方法读取了<code>this.props.user</code>。在React中Props是不可变的，所以他们永远不会改变。<strong>然而，<code>this</code>是，也一直是，可变的。</strong></p>
+<p>确实，这就是<code>this</code>在类中的整个目的。React本身一直在改变它，所以你就能在<code>render</code>和生命周期方法中读取到最新的版本。</p>
+<p>所以当请求尚未完成响应时，如果我们的组件发送了重新渲染，<code>this.props</code>将会改变。<code>showMessage</code>方法从“太新的”<code>props</code>中读取了<code>user</code>。</p>
+<p>这就暴露了一个关于用户界面本质的有趣现象。如果说UI从概念上讲是当前应用程序状态的函数，事件处理函数则是渲染结果的一部分，就像视觉输出一样。我们的事件处理函数隶属于特定props和state的特定渲染。</p>
+<p>然而，调度一个回调函数读取<code>this.props</code>的定时器打破了这种联系。我们<code>showMessage</code>回调并没有和任何特定的渲染绑定，所以它失去了正确的props。从<code>this</code>中读取切断了这个联系。</p>
+<p><strong>我们说函数式组件不存在。</strong>我们将如何解决这个问题。 </p>
+<p>我们想要设法“修复”在带有正确props的<code>render</code>和读取这些<code>props</code>的<code>showMessage</code>回调方法间的联系。在某个地方，<code>props</code>迷路了。</p>
+<p>一种解决方法会是在事件触发之前就将读取<code>this.props</code>，然后显式地将其传递给定时器的实现方法里去。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProfilePage</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  showMessage = <span class="function">(<span class="params">user</span>) =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'Followed '</span> + user);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;user&#125; = <span class="keyword">this</span>.props;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">this</span>.showMessage(user), <span class="number">3000</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleClick&#125;</span>&gt;</span>Follow<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样生效了。然而值得注意的是，这种方式让代码变得更加啰嗦以及容易出错。如果我们需要用到不止一个porp呢？如果我们需要用到state呢？<strong>如果<code>showMessage</code>调用了其他方法，这些方法也需要去读取<code>this.props.something</code>或者<code>this.state.something</code>呢？我们会再次遇到相同的问题。</strong>所以我们必须将<code>this.props</code>和<code>this.state</code>作为参数传递给每一个由<code>showMessage</code>调用的函数。</p>
+<p>这样做违背了由类提供的便捷。这是很难去记住并且加强的，这也是人们总是由此出现bug的原因。</p>
+<p>类似地，在<code>handleClick</code>中直接插入<code>alert</code>代码并不会解决这个大问题。我们希望能以一种能将代码分割为更多方法的方式来组织代码，而且可以读取到与该调用相关的渲染对应的state和props。这样问题不是react独有的，你可以在任何将数据作为一个像<code>this</code>这样可变的对象的UI框架中复现。</p>
+<p>也许，我们可以在construct中<em>绑定</em>方法？</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProfilePage</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props);</span><br><span class="line">    <span class="keyword">this</span>.showMessage = <span class="keyword">this</span>.showMessage.bind(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">this</span>.handleClick = <span class="keyword">this</span>.handleClick.bind(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  showMessage() &#123;</span><br><span class="line">    alert(<span class="string">'Followed '</span> + <span class="keyword">this</span>.props.user);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  handleClick() &#123;</span><br><span class="line">    setTimeout(<span class="keyword">this</span>.showMessage, <span class="number">3000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.handleClick&#125;</span>&gt;</span>Follow<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不行，这样并不能解决任何事情。记住，我们的问题时读取<code>this.props</code>的时机太迟了，而不是我们使用的语法问题。<strong>然而我们完全可以依赖闭包来处理这个问题。</strong></p>
+<p>闭包通常是避免被使用的，因为很难去追踪一个随时间变化的值。但是在React中，props和state是不可变的！这样扫除了使用闭包的主要障碍。</p>
+<p>这意味着，如果你在一个特定的render的props和state中返回之后，我们始终可以拿到相同的值：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ProfilePage</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="comment">// Capture the props!</span></span><br><span class="line">    <span class="keyword">const</span> props = <span class="keyword">this</span>.props;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note: we are *inside render*.</span></span><br><span class="line">    <span class="comment">// These aren't class methods.</span></span><br><span class="line">    <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      alert(<span class="string">'Followed '</span> + props.user);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      setTimeout(showMessage, <span class="number">3000</span>);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;handleClick&#125;</span>&gt;</span>Follow<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>你已经在渲染时“捕获”props。</strong></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g13n0xeqp0g30b40697wh.gif" alt=""></p>
+<p>这种方法下，在闭包中的任何代码都能保证了拿到这次特定渲染的props。React再也不会“拿走我们的奶酪”了。</p>
+<p>上面的例子虽然是正确的，但它有点怪怪的。如果你不使用class的方法而是在<code>render</code>中定义函数的话，那我们用class的意义是什么呢？</p>
+<p>确实，我们可以通过将class的外壳移除的方式来简化代码：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ProfilePage</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'Followed '</span> + props.user);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(showMessage, <span class="number">3000</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;button onClick=&#123;handleClick&#125;&gt;Follow&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>如上所述，<code>props</code>仍然可以被捕获——React将它们作为参数传递了。<strong>不像<code>this</code>，<code>props</code>对象本身是不会被React改变的。</strong></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ProfilePage</span>(<span class="params">&#123; user &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'Followed '</span> + user);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(showMessage, <span class="number">3000</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;button onClick=&#123;handleClick&#125;&gt;Follow&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>当父组件以不同的props渲染<code>ProfilePage</code>时，React会再次调用<code>ProfilePage</code>函数。但是我们已经单击的事件处理函数是属于上一个渲染，它具有自己的<code>user</code>值和读取它的<code>showMessage</code>回调。它们都被完好的保留了。</p>
+<p>这就是为什么在这个<a href="https://codesandbox.io/s/pjqnl16lm7" target="_blank" rel="noopener">这个demo</a>的版本里，在Sophie的简介中点击了关注然后切换到Sunil的时候将会弹窗提醒<code>Followed Sophie</code>。</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1g14dlfzrczg30p1085wm0.gif" alt=""></p>
+<p>这个表现的正确的。</p>
+<p>现在我们理解了在React中函数和类的最大区别。</p>
+<blockquote>
+<p><strong>函数式组件捕获了渲染的值</strong></p>
+</blockquote>
+<p><strong>在Hooks里，相同的原则也同样应用到state。</strong>思考下这个例子：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MessageThread</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [message, setMessage] = useState(<span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'You said: '</span> + message);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleSendClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(showMessage, <span class="number">3000</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleMessageChange = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    setMessage(e.target.value);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;input value=&#123;message&#125; onChange=&#123;handleMessageChange&#125; /&gt;</span><br><span class="line">      &lt;button onClick=&#123;handleSendClick&#125;&gt;Send&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（这是个<a href="https://codesandbox.io/s/93m5mz9w24" target="_blank" rel="noopener">在线的demo</a>）</p>
+<p>虽然这不是一个很好的消息app的界面，但它阐述了相同的要点：如果我发送了一条特定是消息，这个组件不应该不知道我到底发了哪条。函数式组件的<code>message</code>捕获了属于这次渲染的state，这个渲染返回了由浏览器调用的单击处理方法。所以这个<code>message</code>在我点击发送的时机就被设置了输入框的内容。</p>
+<p>所以，我们知道在React中的函数默认捕获了state和props。<strong>但如果我希望获取最新的props和state，它们不属于这次特定的渲染。</strong>如果我想要在<a href="https://dev.to/scastiel/react-hooks-get-the-current-state-back-to-the-future-3op2" target="_blank" rel="noopener">未来获取它们呢</a>？</p>
+<p>在类组件中，你可以通过读取<code>this.props</code>或<code>this.state</code>来做到，因为<code>this</code>本身是可变的。Raect改变了它。在函数式组件中，你也可以由一个可更改的值，这个值由所有组件的渲染共享。它叫做”ref”：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyComponent</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> ref = useRef(<span class="literal">null</span>);</span><br><span class="line">  <span class="comment">// You can read or write `ref.current`.</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，你将必须自己管理它。</p>
+<p>ref和实例字段扮演同样的角色。它是进入可变的命令式世界的媒介。也许你对“DOM refs”熟悉，但是这个从概念上更加的通用。它只是一个你可以放些东西进去的盒子。</p>
+<p>甚至从表现上看，<code>this.something</code>看起来就相识<code>something current</code>的镜像。他们表达的是同样的概念。</p>
+<p>默认地，在函数式组件中，React并不会为pros或state创建refs。很多场景下不都不需要他们，而且管理他们会是浪费精力。然而，如果你愿意你乐意手动追踪这个值：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MessageThread</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [message, setMessage] = useState(<span class="string">''</span>);</span><br><span class="line">  <span class="keyword">const</span> latestMessage = useRef(<span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'You said: '</span> + latestMessage.current);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleSendClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(showMessage, <span class="number">3000</span>);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> handleMessageChange = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    setMessage(e.target.value);</span><br><span class="line">    latestMessage.current = e.target.value;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>如果我们读取<code>showMessage</code>的<code>message</code>时，我们会在按下发送按钮的时候看到这个message。但是当我们获取<code>latestMessage.current</code>时，我们会拿到最新的值，即使我们在发送按钮点击发送之后不停地输入。</p>
+<p>你可以自己对比这个两个demo看看他们的不同。ref是一种打破渲染一致性的方式，你可以在某些场景下使用它。一般来说，你应该避免在渲染阶段获取或设置refs，因为它们是可变的。我们希望使渲染变得具有预测性。<strong>然而，如果我们想要获取某个特定的prop或state的最新的值时，手动更新ref是非常烦人的事。</strong>我们可以通过使用effect来使它自动化。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MessageThread</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [message, setMessage] = useState(<span class="string">''</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Keep track of the latest value.</span></span><br><span class="line">  <span class="keyword">const</span> latestMessage = useRef(<span class="string">''</span>);</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    latestMessage.current = message;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">'You said: '</span> + latestMessage.current);</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p>这儿有个<a href="https://codesandbox.io/s/yqmnz7xy8x" target="_blank" rel="noopener">demo</a></p>
+<p>我们在一个effect中做这个分配，以使ref的值仅在DOM更新后才改变。这就确保了我们的改变不会破坏依赖于可中断渲染的时间切片或Suspence等功能。</p>
+<p>这样使用ref经常没有必要。<strong>默认地，捕获prosp或state更好。</strong>然而在处理定时器和订阅等命令式API的时候会很顺手。记住，你可以最终任何的值——一个props，state变量，整个props对象，设置是一个函数。</p>
+<p>这种模式对一些优化很有用，比如说当<code>useCallback</code>的标识变化的非常频繁是时候。然而，使用一个reducer经常会是更好的方案。（一个以后博文的主题！）</p>
+<p>在这篇文章中，我们研究了在类组件中常见的分类模式和如何通过闭包来解决它。但是，你也许注意到当你试图通过指定依赖关系的数据来优化Hooks时，你可能会遇到带有过时闭包的bug。这是不是表明是闭包的问题呢？我不这样认为。</p>
+<p>正如我们上面看到的，闭包确实帮助我们解决了我们很难注意到的细微问题。同时，闭包使编写能在并发模式下正常运行的代码变得更加简单。这是有可能的，因为组件中的逻辑在它渲染的时候就保留了正确的props和state。目前为止，我见过的所有情况下，<strong>“过时闭包”问题的出现是因为一个错误设定：“函数不会改变”或者“props一直是相同的”。</strong>事实并非如此，所以我希望这篇文章可以有助于澄清。</p>
+<p>函数保留了它们的porps和state–所以他们的标识符就尤为重要。这不是一个bug，这是函数式组件的特性。例如，对<code>useEffect</code>或<code>useCallbak</code>来说，函数不应该从依赖项数组中排除。解决方法通常来说既不是<code>useReducer</code>也不是<code>useRef</code>，我们后续会记录如何去选择它们。</p>
+<p>当我们使用函数来编写大多数的React代码时，我们需要调整我们队代码优化的直觉以及哪些值会随着时间改变。</p>
+<p>正如<a href="https://mobile.twitter.com/EphemeralCircle/status/1099095063223812096" target="_blank" rel="noopener">Fredrik</a>指出的：</p>
+<blockquote>
+<p>目前我使用Hooks的所有心理规则是：代码的任何值在任何时间都可变</p>
+</blockquote>
+<p>函数对于这个规则也不例外。在React的学习材料中，这将会花费点时间来形成统一通识。从类观念模式转化需要点调整，不过我希望这篇文章可以以新的视角去看待。</p>
+<p>React的函数式组件总会捕获了渲染的值–现在我们知道为什么了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------End-------------</div>
+    
+</div>`
+
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"><i class="fa fa-tag"></i> 翻译</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/27/基于Draft-js的聊天框组件的思考（一）/" rel="next" title="基于Draft-js的聊天框组件的思考（一）">
+                <i class="fa fa-chevron-left"></i> 基于Draft-js的聊天框组件的思考（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTQ1NC8xODAwMQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://wx-static.yidejia.com/gDAcwF4KcWJfvH8WszFbzGz7spJPmz1yQnliJizE:M80Mk7_-aF5wufe6-ruDX8WKgsE=:eyJzY29wZSI6Ind4LW1hcmtldGluZy1tYW5hZ2VyIiwiZGVhZGxpbmUiOjE1NDM5MTEyODd9.avatar.jpg" alt="Author Jim">
+            
+              <p class="site-author-name" itemprop="name">Author Jim</p>
+              <p class="site-description motion-element" itemprop="description">Busy or Die</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Author Jim</span>
+
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共15k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("8LpLKalrvFMrwLLsqnMcWGD1-gzGzoHsz", "ThXlwp1k9eFgfnqUxOw8A2Wb");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
